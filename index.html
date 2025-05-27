@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chúc mừng sinh nhật!</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(to bottom, #1e1e1e, #2c2c2c);
+        color: #f5f5dc;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        overflow: hidden;
+        perspective: 1000px;
+      }
+
+      .container {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        transform-style: preserve-3d;
+        transform: rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg));
+        transition: transform 0.2s ease;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      .falling-text {
+        position: absolute;
+        animation: fall 10s linear infinite;
+        opacity: 0.8;
+        white-space: nowrap;
+      }
+
+      @keyframes fall {
+        0% {
+          top: -10%;
+          opacity: 0;
+        }
+        10% {
+          opacity: 1;
+        }
+        100% {
+          top: 110%;
+          opacity: 0;
+        }
+      }
+
+      audio {
+        position: absolute;
+        bottom: 20px;
+        width: 90%;
+        max-width: 400px;
+      }
+
+      .decor {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        opacity: 0.7;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      .decor:nth-child(odd) {
+        animation-duration: 8s;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-20px) rotate(15deg);
+        }
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .decor {
+          width: 30px;
+          height: 30px;
+        }
+
+        .falling-text {
+          font-size: 14px !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container" id="container">
+      <!-- Trang trí sinh nhật -->
+      <div
+        class="decor"
+        style="
+          top: 10%;
+          left: 10%;
+          background-image: url('https://cdn-icons-png.flaticon.com/512/3468/3468373.png');
+        "
+      ></div>
+      <div
+        class="decor"
+        style="
+          top: 20%;
+          left: 80%;
+          background-image: url('https://cdn-icons-png.flaticon.com/512/4351/4351911.png');
+        "
+      ></div>
+      <div
+        class="decor"
+        style="
+          top: 70%;
+          left: 20%;
+          background-image: url('https://cdn-icons-png.flaticon.com/512/3468/3468375.png');
+        "
+      ></div>
+
+      <audio id="bg-music" loop>
+        <source
+          src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+          type="audio/mpeg"
+        />
+        Trình duyệt của bạn không hỗ trợ audio.
+      </audio>
+    </div>
+
+    <script>
+      const phrases = [
+        "Chúc bạn một ngày thật đẹp!",
+        "Thêm tuổi mới, thêm yêu đời!",
+        "Luôn mỉm cười nhé!",
+        "Hạnh phúc và thành công!",
+        "Chúc bạn luôn vui vẻ!",
+      ];
+
+      setInterval(() => {
+        const el = document.createElement("div");
+        el.className = "falling-text";
+        const maxLeft = window.innerWidth * 0.7; // giới hạn không vượt quá 85% chiều rộng
+        el.style.left = Math.random() * maxLeft + "px";
+        el.style.fontSize = Math.random() * 10 + 16 + "px";
+        el.innerText = phrases[Math.floor(Math.random() * phrases.length)];
+        document.body.appendChild(el);
+        setTimeout(() => document.body.removeChild(el), 10000);
+      }, 1500);
+
+      // --- PC dùng chuột, mobile dùng cảm biến ---
+      let isGyroEnabled = false;
+
+      function handleOrientation(event) {
+        const beta = event.beta; // X-axis (tilt front-back)
+        const gamma = event.gamma; // Y-axis (tilt left-right)
+
+        // Giới hạn góc xoay để không quá lớn
+        const x = Math.max(Math.min(gamma, 30), -30);
+        const y = Math.max(Math.min(beta, 30), -30);
+
+        container.style.setProperty("--rotate-x", `${-y / 2}deg`);
+        container.style.setProperty("--rotate-y", `${x / 2}deg`);
+      }
+
+      function enableGyroControl() {
+        if (
+          typeof DeviceOrientationEvent !== "undefined" &&
+          typeof DeviceOrientationEvent.requestPermission === "function"
+        ) {
+          // iOS cần xin quyền
+          DeviceOrientationEvent.requestPermission()
+            .then((response) => {
+              if (response === "granted") {
+                window.addEventListener("deviceorientation", handleOrientation);
+                isGyroEnabled = true;
+              }
+            })
+            .catch(console.error);
+        } else {
+          // Android hoặc trình duyệt không cần xin phép
+          window.addEventListener("deviceorientation", handleOrientation);
+          isGyroEnabled = true;
+        }
+      }
+
+      // Nếu không phải thiết bị di động, dùng chuột
+      if (!/Mobi|Android/i.test(navigator.userAgent)) {
+        document.addEventListener("mousemove", (e) => {
+          const x = (e.clientX / window.innerWidth - 0.5) * 30;
+          const y = -(e.clientY / window.innerHeight - 0.5) * 30;
+          container.style.setProperty("--rotate-x", `${y}deg`);
+          container.style.setProperty("--rotate-y", `${x}deg`);
+        });
+      } else {
+        // Gọi khi trang load hoặc người dùng chạm
+        document.addEventListener("click", enableGyroControl, { once: true });
+      }
+
+      // Tự động phát nhạc (phù hợp với điện thoại)
+      const bgMusic = document.getElementById("bg-music");
+      const playMusic = () => {
+        bgMusic.play().catch(() => {
+          // Nếu bị chặn, chờ sự kiện người dùng
+          document.addEventListener(
+            "click",
+            () => bgMusic.play().catch(() => {}),
+            { once: true }
+          );
+        });
+      };
+      window.addEventListener("load", playMusic);
+    </script>
+  </body>
+</html>
