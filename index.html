@@ -42,9 +42,18 @@
         border: 1px solid #fff;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
         backdrop-filter: blur(4px);
-        max-width: 200px;
-        word-wrap: break-word;
         text-align: center;
+        word-wrap: break-word;
+      }
+
+      .nowrap {
+        white-space: nowrap;
+        max-width: 80vw;
+      }
+
+      .wrap {
+        white-space: normal;
+        max-width: 200px;
       }
 
       @keyframes fall {
@@ -137,14 +146,25 @@
         "Luôn mỉm cười nhé!",
         "Hạnh phúc và thành công!",
         "Chúc bạn luôn vui vẻ!",
+        "Một năm tuyệt vời đang chờ đón!",
+        "Tuổi mới thật rực rỡ nhé!",
       ];
 
       setInterval(() => {
         const el = document.createElement("div");
         el.className = "falling-text";
+        const text = phrases[Math.floor(Math.random() * phrases.length)];
+        el.innerText = text;
         el.style.left = Math.random() * 90 + "%";
         el.style.fontSize = Math.random() * 6 + 14 + "px";
-        el.innerText = phrases[Math.floor(Math.random() * phrases.length)];
+
+        // Nếu câu ngắn hơn 25 ký tự, không xuống dòng
+        if (text.length <= 25) {
+          el.classList.add("nowrap");
+        } else {
+          el.classList.add("wrap");
+        }
+
         document.body.appendChild(el);
         setTimeout(() => document.body.removeChild(el), 10000);
       }, 500);
