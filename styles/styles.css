@@ -119,11 +119,6 @@ audio {
 
 /* Responsive cho thiết bị nhỏ */
 @media (max-width: 600px) {
-  body {
-    background: url("assets/images/bg.jpg") no-repeat center center fixed;
-    background-size: cover;
-  }
-
   .falling-text {
     font-size: 12px !important;
     padding: 6px 10px;
