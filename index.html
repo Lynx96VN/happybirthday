@@ -168,6 +168,20 @@
         document.body.appendChild(el);
         setTimeout(() => document.body.removeChild(el), 10000);
       }, 500);
+
+      // Thử phát audio sau tương tác đầu tiên
+      window.addEventListener(
+        "click",
+        () => {
+          const audio = document.querySelector("audio");
+          if (audio.paused) {
+            audio.play().catch((err) => {
+              console.log("Tự động phát bị chặn:", err);
+            });
+          }
+        },
+        { once: true }
+      );
     </script>
   </body>
 </html>
