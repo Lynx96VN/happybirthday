@@ -120,8 +120,8 @@ audio {
 /* Responsive cho thiết bị nhỏ */
 @media (max-width: 600px) {
   body {
-    background-size: auto 100vh;
-    background-position: center top;
+    background: url("assets/images/bg.jpg") no-repeat center center fixed;
+    background-size: cover;
   }
 
   .falling-text {
