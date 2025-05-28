@@ -154,7 +154,7 @@
         const el = document.createElement("div");
         el.className = "falling-text";
         const text = phrases[Math.floor(Math.random() * phrases.length)];
-        el.innerText = text;
+        el.innerHTML = `🎉 ${text} 🎂`;
         el.style.left = Math.random() * 50 + "%";
         el.style.fontSize = Math.random() * 6 + 14 + "px";
 
