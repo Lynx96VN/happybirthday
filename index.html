@@ -42,6 +42,9 @@
         border: 1px solid #fff;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
         backdrop-filter: blur(4px);
+        max-width: 200px;
+        word-wrap: break-word;
+        text-align: center;
       }
 
       @keyframes fall {
@@ -121,10 +124,7 @@
       ></div>
 
       <audio autoplay loop>
-        <source
-          src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
-          type="audio/mpeg"
-        />
+        <source src="assets/music/bg-music.mp3" type="audio/mpeg" />
         Trình duyệt của bạn không hỗ trợ audio.
       </audio>
     </div>
@@ -142,12 +142,24 @@
       setInterval(() => {
         const el = document.createElement("div");
         el.className = "falling-text";
-        el.style.left = Math.random() * 75 + "%";
+        el.style.left = Math.random() * 90 + "%";
         el.style.fontSize = Math.random() * 6 + 14 + "px";
         el.innerText = phrases[Math.floor(Math.random() * phrases.length)];
         document.body.appendChild(el);
         setTimeout(() => document.body.removeChild(el), 10000);
-      }, 700);
+      }, 500);
+
+      // Xoay góc nhìn theo chuột
+      document.addEventListener("mousemove", (e) => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 30;
+        const y = (e.clientY / window.innerHeight - 0.5) * -30;
+        document
+          .getElementById("container")
+          .style.setProperty("--rotate-x", `${y}deg`);
+        document
+          .getElementById("container")
+          .style.setProperty("--rotate-y", `${x}deg`);
+      });
     </script>
   </body>
 </html>
