@@ -107,7 +107,7 @@
   <body>
     <div class="container" id="container">
       <!-- Trang trí sinh nhật -->
-      <div
+      <!-- <div
         class="decor"
         style="
           top: 10%;
@@ -130,7 +130,7 @@
           left: 20%;
           background-image: url('https://cdn-icons-png.flaticon.com/512/3468/3468375.png');
         "
-      ></div>
+      ></div> -->
 
       <audio autoplay loop>
         <source src="assets/music/bg-music.mp3" type="audio/mpeg" />
@@ -155,7 +155,7 @@
         el.className = "falling-text";
         const text = phrases[Math.floor(Math.random() * phrases.length)];
         el.innerText = text;
-        el.style.left = Math.random() * 90 + "%";
+        el.style.left = Math.random() * 70 + "%";
         el.style.fontSize = Math.random() * 6 + 14 + "px";
 
         // Nếu câu ngắn hơn 25 ký tự, không xuống dòng
@@ -168,18 +168,6 @@
         document.body.appendChild(el);
         setTimeout(() => document.body.removeChild(el), 10000);
       }, 500);
-
-      // Xoay góc nhìn theo chuột
-      document.addEventListener("mousemove", (e) => {
-        const x = (e.clientX / window.innerWidth - 0.5) * 30;
-        const y = (e.clientY / window.innerHeight - 0.5) * -30;
-        document
-          .getElementById("container")
-          .style.setProperty("--rotate-x", `${y}deg`);
-        document
-          .getElementById("container")
-          .style.setProperty("--rotate-y", `${x}deg`);
-      });
     </script>
   </body>
 </html>
