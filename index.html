@@ -8,7 +8,8 @@
       body {
         margin: 0;
         padding: 0;
-        background: linear-gradient(to bottom, #1e1e1e, #2c2c2c);
+        background: url("assets/images/bg.jpg") no-repeat center center fixed;
+        background-size: cover;
         color: #f5f5dc;
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         overflow: hidden;
@@ -26,15 +27,21 @@
         transform-style: preserve-3d;
         transform: rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg));
         transition: transform 0.2s ease;
-        padding: 20px;
-        box-sizing: border-box;
       }
 
       .falling-text {
         position: absolute;
         animation: fall 10s linear infinite;
-        opacity: 0.8;
-        white-space: nowrap;
+        opacity: 0.9;
+        padding: 8px 14px;
+        background-color: #ffffff33;
+        border-radius: 18px;
+        color: #fff;
+        font-weight: 500;
+        text-shadow: 1px 1px 2px black;
+        border: 1px solid #fff;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
       }
 
       @keyframes fall {
@@ -53,15 +60,15 @@
 
       audio {
         position: absolute;
-        bottom: 20px;
+        bottom: 50px;
         width: 90%;
         max-width: 400px;
       }
 
       .decor {
         position: absolute;
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
         background-size: contain;
         background-repeat: no-repeat;
         opacity: 0.7;
@@ -81,17 +88,6 @@
         }
         100% {
           transform: translateY(0) rotate(0deg);
-        }
-      }
-
-      @media (max-width: 768px) {
-        .decor {
-          width: 30px;
-          height: 30px;
-        }
-
-        .falling-text {
-          font-size: 14px !important;
         }
       }
     </style>
@@ -124,7 +120,7 @@
         "
       ></div>
 
-      <audio id="bg-music" loop>
+      <audio autoplay loop>
         <source
           src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
           type="audio/mpeg"
@@ -134,6 +130,7 @@
     </div>
 
     <script>
+      // Tạo hiệu ứng chữ rơi tự động
       const phrases = [
         "Chúc bạn một ngày thật đẹp!",
         "Thêm tuổi mới, thêm yêu đời!",
@@ -145,76 +142,12 @@
       setInterval(() => {
         const el = document.createElement("div");
         el.className = "falling-text";
-        const maxLeft = window.innerWidth * 0.7; // giới hạn không vượt quá 85% chiều rộng
-        el.style.left = Math.random() * maxLeft + "px";
-        el.style.fontSize = Math.random() * 10 + 16 + "px";
+        el.style.left = Math.random() * 75 + "%";
+        el.style.fontSize = Math.random() * 6 + 14 + "px";
         el.innerText = phrases[Math.floor(Math.random() * phrases.length)];
         document.body.appendChild(el);
         setTimeout(() => document.body.removeChild(el), 10000);
-      }, 1500);
-
-      // --- PC dùng chuột, mobile dùng cảm biến ---
-      let isGyroEnabled = false;
-
-      function handleOrientation(event) {
-        const beta = event.beta; // X-axis (tilt front-back)
-        const gamma = event.gamma; // Y-axis (tilt left-right)
-
-        // Giới hạn góc xoay để không quá lớn
-        const x = Math.max(Math.min(gamma, 30), -30);
-        const y = Math.max(Math.min(beta, 30), -30);
-
-        container.style.setProperty("--rotate-x", `${-y / 2}deg`);
-        container.style.setProperty("--rotate-y", `${x / 2}deg`);
-      }
-
-      function enableGyroControl() {
-        if (
-          typeof DeviceOrientationEvent !== "undefined" &&
-          typeof DeviceOrientationEvent.requestPermission === "function"
-        ) {
-          // iOS cần xin quyền
-          DeviceOrientationEvent.requestPermission()
-            .then((response) => {
-              if (response === "granted") {
-                window.addEventListener("deviceorientation", handleOrientation);
-                isGyroEnabled = true;
-              }
-            })
-            .catch(console.error);
-        } else {
-          // Android hoặc trình duyệt không cần xin phép
-          window.addEventListener("deviceorientation", handleOrientation);
-          isGyroEnabled = true;
-        }
-      }
-
-      // Nếu không phải thiết bị di động, dùng chuột
-      if (!/Mobi|Android/i.test(navigator.userAgent)) {
-        document.addEventListener("mousemove", (e) => {
-          const x = (e.clientX / window.innerWidth - 0.5) * 30;
-          const y = -(e.clientY / window.innerHeight - 0.5) * 30;
-          container.style.setProperty("--rotate-x", `${y}deg`);
-          container.style.setProperty("--rotate-y", `${x}deg`);
-        });
-      } else {
-        // Gọi khi trang load hoặc người dùng chạm
-        document.addEventListener("click", enableGyroControl, { once: true });
-      }
-
-      // Tự động phát nhạc (phù hợp với điện thoại)
-      const bgMusic = document.getElementById("bg-music");
-      const playMusic = () => {
-        bgMusic.play().catch(() => {
-          // Nếu bị chặn, chờ sự kiện người dùng
-          document.addEventListener(
-            "click",
-            () => bgMusic.play().catch(() => {}),
-            { once: true }
-          );
-        });
-      };
-      window.addEventListener("load", playMusic);
+      }, 700);
     </script>
   </body>
 </html>
