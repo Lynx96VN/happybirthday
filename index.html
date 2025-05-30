@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
@@ -14,5 +14,125 @@
       </audio>
     </div>
     <script src="assets/scripts/main.js"></script>
+  </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chúc mừng sinh nhật 3D</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: url("assets/images/bg.jpg") no-repeat center center fixed;
+        background-size: cover;
+        height: 100%;
+        font-family: "Segoe UI", sans-serif;
+      }
+      .text3d {
+        font-size: 20px;
+        color: #fff;
+        text-shadow: 0 0 6px #ff69b4;
+        font-weight: 500;
+        background-color: rgba(255, 255, 255, 0.1);
+        padding: 6px 12px;
+        border-radius: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(3px);
+      }
+      audio {
+        position: absolute;
+        bottom: 20px;
+        width: 90%;
+        max-width: 400px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 9999;
+      }
+    </style>
+  </head>
+  <body>
+    <audio autoplay loop>
+      <source src="assets/music/bg-music.mp3" type="audio/mpeg" />
+      Trình duyệt của bạn không hỗ trợ audio.
+    </audio>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r148/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.148.0/examples/js/renderers/CSS3DRenderer.js"></script>
+
+    <script>
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        1,
+        2000
+      );
+      camera.position.z = 600;
+
+      const renderer = new THREE.CSS3DRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      const phrases = [
+        "Chúc bạn một ngày thật đẹp!",
+        "Thêm tuổi mới, thêm yêu đời!",
+        "Luôn mỉm cười nhé!",
+        "Hạnh phúc và thành công!",
+        "Chúc bạn luôn vui vẻ!",
+        "Một năm tuyệt vời đang chờ đón!",
+        "Tuổi mới thật rực rỡ nhé!",
+      ];
+
+      for (let i = 0; i < 100; i++) {
+        const div = document.createElement("div");
+        div.className = "text3d";
+        const emojis = ["🎂", "🎉", "✨", "🎁", "💖", "🥳"];
+        const prefix = emojis[Math.floor(Math.random() * emojis.length)];
+        const suffix = emojis[Math.floor(Math.random() * emojis.length)];
+        div.innerText = `${prefix} ${
+          phrases[Math.floor(Math.random() * phrases.length)]
+        } ${suffix}`;
+
+        const object = new THREE.CSS3DObject(div);
+        object.position.set(
+          Math.random() * 2000 - 1000,
+          Math.random() * 2000 - 1000,
+          Math.random() * 2000 - 1000
+        );
+        scene.add(object);
+      }
+
+      function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      // Góc nhìn thay đổi theo con quay hồi chuyển
+      window.addEventListener(
+        "deviceorientation",
+        (event) => {
+          const beta = event.beta || 0;
+          const gamma = event.gamma || 0;
+          const x = THREE.MathUtils.degToRad(beta - 45);
+          const y = THREE.MathUtils.degToRad(gamma);
+          camera.rotation.x = x;
+          camera.rotation.y = y;
+        },
+        true
+      );
+
+      window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    </script>
   </body>
 </html>
