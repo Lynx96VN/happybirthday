@@ -44,6 +44,7 @@
         border-radius: 18px;
         border: 1px solid rgba(255, 255, 255, 0.3);
         backdrop-filter: blur(3px);
+        transition: opacity 1s ease-out;
       }
       audio {
         position: absolute;
@@ -190,10 +191,13 @@
           pos.z + (Math.random() - 0.5) * spread
         );
 
+        // Áp dụng vào div (phải đảm bảo .text3d có transition mượt nếu muốn)
+        div.style.opacity = opacity.toFixed(2);
+
         scene.add(object);
 
         // Animation thủ công: rơi xuống
-        let speed = 1; // tốc độ
+        let speed = 1 + Math.random(); // tốc độ
 
         function fall() {
           object.position.y -= speed;
@@ -205,7 +209,7 @@
         }
 
         fall();
-      }, 400);
+      }, 500);
     </script>
   </body>
 </html>
