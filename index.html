@@ -44,6 +44,7 @@
         border-radius: 18px;
         border: 1px solid rgba(255, 255, 255, 0.3);
         backdrop-filter: blur(3px);
+        transition: opacity 1s ease-out;
       }
       audio {
         position: absolute;
@@ -61,6 +62,36 @@
       <source src="assets/music/bg-music.mp3" type="audio/mpeg" />
       Trình duyệt của bạn không hỗ trợ audio.
     </audio>
+
+    <script>
+      // Chờ tương tác đầu tiên rồi mới phát nhạc
+      window.addEventListener(
+        "click",
+        () => {
+          const audio = document.querySelector("audio");
+          if (audio && audio.paused) {
+            audio
+              .play()
+              .catch((err) => console.warn("Không thể phát nhạc:", err));
+          }
+        },
+        { once: true }
+      );
+
+      // (Tuỳ chọn) Bắt cả chạm trên mobile
+      window.addEventListener(
+        "touchstart",
+        () => {
+          const audio = document.querySelector("audio");
+          if (audio && audio.paused) {
+            audio
+              .play()
+              .catch((err) => console.warn("Không thể phát nhạc:", err));
+          }
+        },
+        { once: true }
+      );
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/three@0.127.0/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.127.0/examples/js/renderers/CSS3DRenderer.js"></script>
@@ -150,6 +181,17 @@
           1000, // y bắt đầu từ trên cao
           Math.random() * 1000 - 500 // z
         );
+
+        const zPos = Math.random() * 1000 + 300; // z từ 300 đến 1300
+        object.position.set(Math.random() * 1000 - 500, 1000, zPos);
+
+        // Tính opacity dựa theo khoảng cách z
+        const maxZ = 1300;
+        const minZ = 300;
+        const opacity = (zPos - minZ) / (maxZ - minZ); // từ 0 → 1
+
+        // Áp dụng vào div (phải đảm bảo .text3d có transition mượt nếu muốn)
+        div.style.opacity = opacity.toFixed(2);
 
         scene.add(object);
 
