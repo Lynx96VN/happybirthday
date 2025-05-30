@@ -44,7 +44,7 @@
         border-radius: 18px;
         border: 1px solid rgba(255, 255, 255, 0.3);
         backdrop-filter: blur(3px);
-        /* transition: opacity 1s ease-out; */
+        transition: opacity 1s ease-out;
       }
       audio {
         position: absolute;
@@ -191,8 +191,15 @@
           pos.z + (Math.random() - 0.5) * spread
         );
 
+        // Tính opacity dựa theo khoảng cách z
+        const distance = object.position.distanceTo(camera.position);
+        const maxZ = 1500;
+        const minZ = 500;
+        let opacity = (distance - minZ) / (maxZ - minZ);
+        opacity = Math.max(0, Math.min(1, opacity)); // Clamp từ 0 → 1
+
         // Áp dụng vào div (phải đảm bảo .text3d có transition mượt nếu muốn)
-        // div.style.opacity = opacity.toFixed(2);
+        div.style.opacity = opacity.toFixed(2);
 
         scene.add(object);
 
