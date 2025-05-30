@@ -26,13 +26,16 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 const phrases = [
-    "Chúc bạn một ngày thật đẹp!",
-    "Thêm tuổi mới, thêm yêu đời!",
-    "Luôn mỉm cười nhé!",
-    "Hạnh phúc và thành công!",
-    "Chúc bạn luôn vui vẻ!",
-    "Một năm tuyệt vời đang chờ đón!",
-    "Tuổi mới thật rực rỡ nhé!",
+    "Sinh nhật vui vẻ",
+    "Cười nhiều lên nè",
+    "Chúc bạn một ngày thật đẹp",
+    "Thêm tuổi mới, thêm yêu đời",
+    "Chúc bạn đạp đổ mọi chướng ngại",
+    "Chúc bạn hạnh phúc và thành công",
+    "Chúc bạn luôn vui vẻ",
+    "Chúc bạn có một năm thật tuyệt vời",
+    "Mình tin bạn, bạn cũng thế nha",
+    "Chúc bạn khỏe mạnh, không thăm bác sĩ nữa"
 ];
 const emojis = ["🎂", "🎉", "✨", "🎁", "💖", "🥳"];
 
