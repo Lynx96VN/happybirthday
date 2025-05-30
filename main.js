@@ -123,8 +123,11 @@ window.addEventListener("resize", () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// Hiệu ứng rơi từng chữ mỗi 500ms
-setInterval(() => {
+// Hiệu ứng rơi từng chữ mỗi 800ms
+const maxFallingObjects = 20;
+const fallingObjects = [];
+
+function spawnFallingPhrase() {
     const div = document.createElement("div");
     div.className = "text3d";
     const text = getNextPhrase();
@@ -139,7 +142,6 @@ setInterval(() => {
     const zOffset = 1000;
     const pos = camera.position.clone().add(vector.multiplyScalar(zOffset));
     const spread = 400;
-
     const startY = pos.y + 600;
 
     object.position.set(
@@ -148,27 +150,32 @@ setInterval(() => {
         pos.z + (Math.random() - 0.5) * spread
     );
 
-    // Bắt đầu với opacity = 1
     div.style.opacity = "1";
-    div.style.transition = "opacity 0.2s linear"; // mượt
+    div.style.transition = "opacity 0.2s linear";
+
+    // Nếu đã đầy, remove phần tử đầu tiên
+    if (fallingObjects.length >= maxFallingObjects) {
+        const first = fallingObjects.shift();
+        scene.remove(first.object);
+    }
 
     scene.add(object);
+    fallingObjects.push({ object, div });
 
     const speed = 0.9;
 
     function fall() {
         object.position.y -= speed;
 
-        // 🔄 Xoay nhẹ quanh trục Y
-        object.rotation.y += 0.01;
-
-        // Tính phần trăm rơi (từ 1 → 0)
         const progress = (object.position.y + 1000) / (startY + 1000);
         const opacity = Math.max(0, Math.min(1, progress));
         div.style.opacity = opacity.toFixed(2);
 
         if (object.position.y < -1000) {
+            // Remove khỏi scene và mảng
             scene.remove(object);
+            const index = fallingObjects.findIndex(item => item.object === object);
+            if (index !== -1) fallingObjects.splice(index, 1);
             return;
         }
 
@@ -176,4 +183,11 @@ setInterval(() => {
     }
 
     fall();
-}, 800);
+
+    setTimeout(spawnFallingPhrase, 800);
+}
+
+// Khởi chạy lần đầu
+spawnFallingPhrase();
+
+
