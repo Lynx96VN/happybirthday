@@ -133,6 +133,40 @@
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
       });
+
+      setInterval(() => {
+        const div = document.createElement("div");
+        div.className = "text3d";
+
+        const text = phrases[Math.floor(Math.random() * phrases.length)];
+        const emojis = ["🎂", "🎉", "✨", "🎁", "💖", "🥳"];
+        const prefix = emojis[Math.floor(Math.random() * emojis.length)];
+        const suffix = emojis[Math.floor(Math.random() * emojis.length)];
+        div.innerText = `${prefix} ${text} ${suffix}`;
+
+        const object = new THREE.CSS3DObject(div);
+        object.position.set(
+          Math.random() * 1000 - 500, // x
+          1000, // y bắt đầu từ trên cao
+          Math.random() * 1000 - 500 // z
+        );
+
+        scene.add(object);
+
+        // Animation thủ công: rơi xuống
+        let speed = 1 + Math.random(); // tốc độ ngẫu nhiên
+
+        function fall() {
+          object.position.y -= speed;
+          if (object.position.y < -1000) {
+            scene.remove(object);
+            return;
+          }
+          requestAnimationFrame(fall);
+        }
+
+        fall();
+      }, 500);
     </script>
   </body>
 </html>
