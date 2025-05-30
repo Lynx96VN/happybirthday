@@ -159,6 +159,9 @@ setInterval(() => {
     function fall() {
         object.position.y -= speed;
 
+        // 🔄 Xoay nhẹ quanh trục Y
+        object.rotation.y += 0.01;
+
         // Tính phần trăm rơi (từ 1 → 0)
         const progress = (object.position.y + 1000) / (startY + 1000);
         const opacity = Math.max(0, Math.min(1, progress));
