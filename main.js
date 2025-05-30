@@ -140,23 +140,37 @@ setInterval(() => {
     const pos = camera.position.clone().add(vector.multiplyScalar(zOffset));
     const spread = 400;
 
+    const startY = pos.y + 600;
+
     object.position.set(
         pos.x + (Math.random() - 0.5) * spread,
-        pos.y + 600,
+        startY,
         pos.z + (Math.random() - 0.5) * spread
     );
 
+    // Bắt đầu với opacity = 1
+    div.style.opacity = "1";
+    div.style.transition = "opacity 0.2s linear"; // mượt
+
     scene.add(object);
 
-    // Rơi xuống
-    let speed = 1 + Math.random();
+    const speed = 0.9;
+
     function fall() {
         object.position.y -= speed;
+
+        // Tính phần trăm rơi (từ 1 → 0)
+        const progress = (object.position.y + 1000) / (startY + 1000);
+        const opacity = Math.max(0, Math.min(1, progress));
+        div.style.opacity = opacity.toFixed(2);
+
         if (object.position.y < -1000) {
             scene.remove(object);
             return;
         }
+
         requestAnimationFrame(fall);
     }
+
     fall();
 }, 800);
