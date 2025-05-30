@@ -1,0 +1,32 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: url("assets/images/bg.jpg") no-repeat center center fixed;
+  background-size: cover;
+  height: 100%;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.text3d {
+  font-size: 20px;
+  color: #fff;
+  text-shadow: 0 0 6px #ff69b4;
+  font-weight: 500;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 6px 12px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(3px);
+}
+
+audio {
+  position: absolute;
+  bottom: 20px;
+  width: 90%;
+  max-width: 400px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+}
