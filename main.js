@@ -41,6 +41,31 @@ const phrases = [
 ];
 const emojis = ["🎂", "🎉", "✨", "🎁", "💖", "🥳"];
 
+// --- Shuffle logic ---
+function shuffle(array) {
+    const newArray = array.slice();
+    for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+}
+
+let shuffledPhrases = [];
+let phraseIndex = 0;
+function getNextPhrase() {
+    if (phraseIndex >= shuffledPhrases.length) {
+        shuffledPhrases = shuffle(phrases);
+        phraseIndex = 0;
+    }
+    return shuffledPhrases[phraseIndex++];
+}
+
+// Cũng áp dụng với emoji
+function getRandomEmoji() {
+    return emojis[Math.floor(Math.random() * emojis.length)];
+}
+
 const minDistance = 800; // khoảng cách tối thiểu tới camera
 const maxDistance = 2000;
 const spread = 2000;
@@ -49,14 +74,13 @@ const spread = 2000;
 for (let i = 0; i < 100; i++) {
     const div = document.createElement("div");
     div.className = "text3d";
-    const prefix = emojis[Math.floor(Math.random() * emojis.length)];
-    const suffix = emojis[Math.floor(Math.random() * emojis.length)];
-    div.innerText = `${prefix} ${phrases[Math.floor(Math.random() * phrases.length)]} ${suffix}`;
+    const prefix = getRandomEmoji();
+    const suffix = getRandomEmoji();
+    div.innerText = `${prefix} ${getNextPhrase()} ${suffix}`;
 
     const object = new THREE.CSS3DObject(div);
 
-    let position;
-    let distance;
+    let position, distance;
     // Lặp đến khi tìm được vị trí đủ xa
     do {
         position = new THREE.Vector3(
@@ -103,9 +127,9 @@ window.addEventListener("resize", () => {
 setInterval(() => {
     const div = document.createElement("div");
     div.className = "text3d";
-    const text = phrases[Math.floor(Math.random() * phrases.length)];
-    const prefix = emojis[Math.floor(Math.random() * emojis.length)];
-    const suffix = emojis[Math.floor(Math.random() * emojis.length)];
+    const text = getNextPhrase();
+    const prefix = getRandomEmoji();
+    const suffix = getRandomEmoji();
     div.innerText = `${prefix} ${text} ${suffix}`;
 
     const object = new THREE.CSS3DObject(div);
