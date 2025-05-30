@@ -35,7 +35,9 @@ const phrases = [
     "Chúc bạn luôn vui vẻ",
     "Chúc bạn có một năm thật tuyệt vời",
     "Mình tin bạn, bạn cũng thế nha",
-    "Chúc bạn khỏe mạnh, không thăm bác sĩ nữa"
+    "Chúc bạn khỏe mạnh, không thăm bác sĩ nữa nha",
+    "Chúc bạn có thể hoàn thành mọi dự định",
+    "Chúc bạn từ giờ đến khi ra riêng không có biến nữa"
 ];
 const emojis = ["🎂", "🎉", "✨", "🎁", "💖", "🥳"];
 
