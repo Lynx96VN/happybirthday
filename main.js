@@ -159,4 +159,4 @@ setInterval(() => {
         requestAnimationFrame(fall);
     }
     fall();
-}, 500);
+}, 800);
