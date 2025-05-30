@@ -44,7 +44,6 @@
         border-radius: 18px;
         border: 1px solid rgba(255, 255, 255, 0.3);
         backdrop-filter: blur(3px);
-        transition: opacity 1s ease-out;
       }
       audio {
         position: absolute;
@@ -182,16 +181,21 @@
           Math.random() * 1000 - 500 // z
         );
 
-        const zPos = Math.random() * 1000 + 300; // z từ 300 đến 1300
-        object.position.set(Math.random() * 1000 - 500, 1000, zPos);
+        object.position.set(
+          Math.random() * 1000 - 500, // x
+          1000, // y
+          Math.random() * 1000 + 300 // z: từ 300 đến 1300, xa hơn camera z=600
+        );
+        // const zPos = Math.random() * 1000 + 300; // z từ 300 đến 1300
+        // object.position.set(Math.random() * 1000 - 500, 1000, zPos);
 
-        // Tính opacity dựa theo khoảng cách z
-        const maxZ = 1300;
-        const minZ = 300;
-        const opacity = (zPos - minZ) / (maxZ - minZ); // từ 0 → 1
+        // // Tính opacity dựa theo khoảng cách z
+        // const maxZ = 1300;
+        // const minZ = 300;
+        // const opacity = (zPos - minZ) / (maxZ - minZ); // từ 0 → 1
 
-        // Áp dụng vào div (phải đảm bảo .text3d có transition mượt nếu muốn)
-        div.style.opacity = opacity.toFixed(2);
+        // // Áp dụng vào div (phải đảm bảo .text3d có transition mượt nếu muốn)
+        // div.style.opacity = opacity.toFixed(2);
 
         scene.add(object);
 
