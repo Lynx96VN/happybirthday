@@ -103,7 +103,7 @@
         1,
         2000
       );
-      camera.position.z = 600;
+      camera.position.z = 700;
 
       const renderer = new THREE.CSS3DRenderer();
       renderer.setSize(window.innerWidth, window.innerHeight);
@@ -186,21 +186,11 @@
           1000, // y
           Math.random() * 1000 + 300 // z: từ 300 đến 1300, xa hơn camera z=600
         );
-        // const zPos = Math.random() * 1000 + 300; // z từ 300 đến 1300
-        // object.position.set(Math.random() * 1000 - 500, 1000, zPos);
-
-        // // Tính opacity dựa theo khoảng cách z
-        // const maxZ = 1300;
-        // const minZ = 300;
-        // const opacity = (zPos - minZ) / (maxZ - minZ); // từ 0 → 1
-
-        // // Áp dụng vào div (phải đảm bảo .text3d có transition mượt nếu muốn)
-        // div.style.opacity = opacity.toFixed(2);
 
         scene.add(object);
 
         // Animation thủ công: rơi xuống
-        let speed = 1 + Math.random(); // tốc độ ngẫu nhiên
+        let speed = 1; // tốc độ rơi
 
         function fall() {
           object.position.y -= speed;
